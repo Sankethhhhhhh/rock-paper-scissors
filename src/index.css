@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;800&display=swap');
+
+:root {
+  --bg-color: #1a0b2e;
+  --panel-bg: #2d1b4e;
+  --primary: #ff3366;
+  --secondary: #00d2ff;
+  --accent: #ffcc00;
+  --text: #ffffff;
+  --win-color: #00ff88;
+  --lose-color: #ff3366;
+  --draw-color: #aaaaaa;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, .arcade-font {
+  font-family: 'Bangers', cursive;
+  letter-spacing: 2px;
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Landing Screen */
+.landing-screen {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.title-container {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.arcade-title {
+  display: flex;
+  flex-direction: column;
+  font-size: 5rem;
+  line-height: 0.9;
+  text-shadow: 4px 4px 0px #000, 8px 8px 0px var(--primary);
+  transform: rotate(-5deg);
+}
+
+.arcade-title span:nth-child(1) { color: var(--accent); }
+.arcade-title span:nth-child(2) { color: var(--text); }
+.arcade-title span:nth-child(3) { color: var(--secondary); }
+
+.ai-badge {
+  position: absolute;
+  right: -40px;
+  bottom: -20px;
+  background: var(--primary);
+  color: white;
+  font-family: 'Bangers', cursive;
+  padding: 5px 15px;
+  border-radius: 20px;
+  transform: rotate(15deg);
+  font-size: 1.5rem;
+  border: 3px solid black;
+  box-shadow: 3px 3px 0 #000;
+  animation: pulse 1.5s infinite;
+}
+
+.start-btn {
+  font-family: 'Bangers', cursive;
+  font-size: 3rem;
+  padding: 15px 40px;
+  background: var(--accent);
+  color: black;
+  border: 4px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 var(--primary);
+  transition: all 0.1s ease;
+}
+
+.start-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--primary);
+}
+
+.start-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--primary);
+}
+
+.instruction-text {
+  margin-top: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--secondary);
+}
+
+/* Game Screen */
+.game-screen {
+  width: 100%;
+  max-width: 1200px;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-panel {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.score-board {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(0,0,0,0.5);
+  padding: 15px 40px;
+  border-radius: 15px;
+  border: 3px solid var(--secondary);
+}
+
+.score-box {
+  text-align: center;
+  min-width: 100px;
+}
+
+.score-box span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #aaa;
+}
+
+.score-box h2 {
+  font-size: 3rem;
+  margin: 0;
+  color: var(--accent);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.score-box.vs {
+  font-family: 'Bangers', cursive;
+  font-size: 2.5rem;
+  color: var(--primary);
+  min-width: auto;
+}
+
+.split-view {
+  display: flex;
+  flex: 1;
+  gap: 30px;
+  padding-top: 10px;
+  min-height: 0;
+}
+
+.view-panel {
+  flex: 1;
+  background: var(--panel-bg);
+  border: 4px solid #000;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+}
+
+.view-panel h3 {
+  background: #000;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--secondary);
+  border-bottom: 4px solid #222;
+}
+
+.player-panel { border-color: var(--secondary); }
+.ai-panel { border-color: var(--primary); }
+
+.video-container, .ai-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  overflow: hidden;
+}
+
+/* Webcam Canvas */
+.webcam-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror */
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.webcam-video.active {
+  opacity: 1;
+}
+
+.webcam-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* Mirror to match video */
+}
+
+/* Overlays */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 10;
+}
+
+.countdown-number {
+  font-family: 'Bangers', cursive;
+  font-size: 12rem;
+  color: var(--accent);
+  text-shadow: 5px 5px 0 #000, 10px 10px 0 var(--primary);
+  animation: zoomShake 1s infinite linear;
+}
+
+.detecting-overlay span {
+  font-family: 'Bangers', cursive;
+  font-size: 3rem;
+  color: var(--secondary);
+  animation: pulse 0.5s infinite;
+  text-shadow: 2px 2px 0 #000;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 30px;
+  border-radius: 10px;
+}
+
+.result-overlay {
+  background: rgba(0,0,0,0.7);
+  animation: slideUp 0.3s ease-out;
+}
+
+.result-overlay span {
+  font-family: 'Bangers', cursive;
+  font-size: 5rem;
+  margin-bottom: 20px;
+  text-shadow: 4px 4px 0 #000;
+}
+
+.result-overlay.win span { color: var(--win-color); }
+.result-overlay.lose span { color: var(--lose-color); }
+.result-overlay.draw span { color: var(--draw-color); }
+
+.move-label {
+  font-family: 'Bangers', cursive;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: #000;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 30px;
+  border: 4px solid var(--accent);
+  letter-spacing: 2px;
+}
+
+/* AI Panel */
+.ai-thinking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--secondary);
+}
+
+.spin-icon {
+  animation: spin 2s linear infinite;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.ai-thinking p {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.ai-move-display {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.move-badge {
+  font-family: 'Bangers', cursive;
+  font-size: 4rem;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 10px solid #000;
+  background: #fff;
+  color: #000;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 10px 10px 0 var(--primary);
+}
+
+.move-badge.rock { background: #ff5555; }
+.move-badge.paper { background: #55aaff; }
+.move-badge.scissors { background: #ffaa00; }
+
+.camera-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: var(--secondary);
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes zoomShake {
+  0% { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+  20% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  40% { transform: scale(0.9) rotate(-5deg); }
+  60% { transform: scale(1.1) rotate(5deg); }
+  80% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 0; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .split-view { flex-direction: column; }
+  .view-panel { height: 400px; flex: none; }
+  .arcade-title { font-size: 3.5rem; }
+  .move-badge { width: 180px; height: 180px; font-size: 3rem; }
+  .score-box h2 { font-size: 2rem; }
+}
