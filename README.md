@@ -15,7 +15,7 @@ The application uses Google MediaPipe Tasks Vision to perform on-device frame an
 
 ## 🚀 Live Demo
 
-*(yet to be deployed)*
+*rock-paper-scissors-59lj.vercel.app*
 
 ---
 
