@@ -127,6 +127,10 @@ src/
 </p>
 
 <p align="center">
+  <img src="./assets/win.png" width="750"/>
+</p>
+
+<p align="center">
   <img src="./assets/clear.png" width="750"/>
 </p>
 
